@@ -1,0 +1,38 @@
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+class EchoClient
+{
+	/* 	
+		Echos user string to 'EchoServer'
+		'EchoServer' will echo the string back
+	*/	
+	public static void main(String[] args) {
+		// Set up a connection in try with else block
+		// Benefits of automatic closing of all the streams in reverse order
+		try (
+			// Binding client to the below socket on localhost
+			Socket clientSocket = new Socket("localhost", 8001);
+			// Opening a decorated input stream for userinput
+			BufferedReader stdIn = new BufferedReader(new InputStreamReader (System.in));
+			// Opening a decorated input stream for the socket
+			// used to read data from the socket
+			BufferedReader in = new BufferedReader(new InputStreamReader (clientSocket.getInputStream()));
+			// Opening an output writer stream for the socket
+			// used to write data to the socket stream 
+			// flush is set to true
+			PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+		){
+			String userInput;
+			System.out.println("Enter a string.");
+			while((userInput = stdIn.readLine()) != null){
+				out.println(userInput);
+				System.out.println("echo: " + in.readLine());
+			}
+		}
+		 catch (Exception e){
+			System.out.println(e);
+		}
+	}
+}
