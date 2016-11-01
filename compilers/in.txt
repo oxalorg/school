@@ -1,0 +1,6 @@
+PRG     START
+$       USING       *, 15
+$       L           1,FOUR
+$       A           1,=F'2'
+FOUR    DC          F'4'
+$       END
